@@ -1,0 +1,13 @@
+{
+  "pages":[
+    "pages/index/index",
+    "pages/logs/logs"
+  ],
+  "window":{
+    "backgroundTextStyle":"light",
+    "navigationBarBackgroundColor": "#ff7373",
+    "navigationBarTitleText": "社团管理",
+    "navigationBarTextStyle":"white"
+    
+  }
+}
