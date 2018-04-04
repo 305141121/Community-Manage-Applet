@@ -9,7 +9,7 @@ import json
 import logging
 import time
 import jwt
-
+from web.models import User
 
 # 需要appid 和 appsecret 保持会话
 appid = 'wx3e821923eeac1991'
@@ -31,21 +31,61 @@ def index(request):
 
         re = requests.get(url)
         # result返回 session_key 和 openid
-        result = re.content
+        reJson = json.loads(re.content.decode('utf-8'))
+        openid = reJson['openid']
+        logging.info("currentUser: "+openid)
 
-        print(result)
+        # 用户登入小程序即为其创建数据库记录
+        # newUser = User(openid=openid)
+        # newUser.save()
 
-        return HttpResponse("cool")
+        # 加密openid
+        token = createToken(openid)
+        return HttpResponse(token)
 
 
-# 更改用户信息,'POST'
-def updateInfo(request):
-    content = json.load(request.body)
+# 更改用户信息,'POST'，上传信息时需要上传 token 标识用户
+# name, phone, sex, grade, major
+def updateUserInfo(request):
+    logging.warning("updateUserInfo!!!")
+    content = json.loads(request.body)
+    openid = decodeToken(content['token'])
 
 
-# 通过 jwt 标识用户维持登录态
-def createToken():
+    logging.info("openid: "+openid)
+
+    user = User.objects.get(openid=openid)
+
+
+    logging.warning("User！！！！"+user.openid)
+    print("content:\n"+str(content))
+    print("user.name: "+user.name)
+    user.name = content['name']
+    user.save()
+    print("user.NAME: "+user.name)
+    user.phone = content['phone']
+    user.sex = content['sex']
+    user.grade = content['grade']
+    user.major = content['major']
+    user.save()
+
+    logging.warning("save success!!")
+
+    return HttpResponse("success")
+
+
+# 通过 jwt 加密并通过openid标识用户
+def createToken(openid):
     payload = {
-        # token 过期时间为 2小时
-        "exp": int(time.time())+7200
+        "openid": openid
     }
+
+    token = jwt.encode(payload=payload,key='secret',algorithm='HS256')
+    return token
+
+
+# jwt解密获得用户的openid
+def decodeToken(token):
+    logging.warning("WARNNING:  "+token)
+    payload = jwt.decode(token, key='secret', algorithms='HS256')
+    return payload['openid']

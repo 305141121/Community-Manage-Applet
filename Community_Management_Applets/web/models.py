@@ -11,11 +11,12 @@ from django.db import models
 class Community(models.Model):
     com_id = models.CharField(primary_key=True, max_length=45)
     name = models.CharField(unique=True, max_length=32)
+    intro = models.CharField(max_length=256)
+    logo = models.TextField()
 
     class Meta:
         managed = False
         db_table = 'community'
-        unique_together = (('com_id', 'name'),)
 
 
 class CommunityHasUser(models.Model):
@@ -32,6 +33,8 @@ class Message(models.Model):
     message_id = models.CharField(primary_key=True, max_length=45)
     content = models.CharField(max_length=256)
     user_wechat = models.ForeignKey('User', models.DO_NOTHING)
+    readed = models.IntegerField()
+    sendtime = models.DateField()
 
     class Meta:
         managed = False
@@ -39,11 +42,11 @@ class Message(models.Model):
 
 
 class User(models.Model):
-    wechat_id = models.CharField(primary_key=True, max_length=16)
+    openid = models.CharField(primary_key=True, max_length=32)
     name = models.CharField(max_length=32, blank=True, null=True)
     phone = models.IntegerField(blank=True, null=True)
     sex = models.IntegerField(blank=True, null=True)
-    grade = models.IntegerField(blank=True, null=True)
+    grade = models.SmallIntegerField(blank=True, null=True)
     major = models.CharField(max_length=32, blank=True, null=True)
 
     class Meta:
