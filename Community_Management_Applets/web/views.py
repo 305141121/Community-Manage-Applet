@@ -4,12 +4,15 @@ from django.shortcuts import render
 
 from django.http.response import HttpResponse
 from django.http.request import HttpRequest
+from django.http import JsonResponse
 import requests
 import json
 import logging
 import time
 import jwt
-from web.models import User
+from web.models import User,Message
+from django.core import serializers
+
 
 # 需要appid 和 appsecret 保持会话
 appid = 'wx3e821923eeac1991'
@@ -36,8 +39,8 @@ def index(request):
         logging.info("currentUser: "+openid)
 
         # 用户登入小程序即为其创建数据库记录
-        # newUser = User(openid=openid)
-        # newUser.save()
+        newUser = User(openid=openid)
+        newUser.save()
 
         # 加密openid
         token = createToken(openid)
@@ -47,30 +50,18 @@ def index(request):
 # 更改用户信息,'POST'，上传信息时需要上传 token 标识用户
 # name, phone, sex, grade, major
 def updateUserInfo(request):
-    logging.warning("updateUserInfo!!!")
     content = json.loads(request.body)
     openid = decodeToken(content['token'])
 
-
-    logging.info("openid: "+openid)
+    logging.info("openid: "+openid+" update information.")
 
     user = User.objects.get(openid=openid)
-
-
-    logging.warning("User！！！！"+user.openid)
-    print("content:\n"+str(content))
-    print("user.name: "+user.name)
     user.name = content['name']
-    user.save()
-    print("user.NAME: "+user.name)
     user.phone = content['phone']
     user.sex = content['sex']
     user.grade = content['grade']
     user.major = content['major']
     user.save()
-
-    logging.warning("save success!!")
-
     return HttpResponse("success")
 
 
@@ -79,13 +70,13 @@ def createToken(openid):
     payload = {
         "openid": openid
     }
-
     token = jwt.encode(payload=payload,key='secret',algorithm='HS256')
     return token
 
 
 # jwt解密获得用户的openid
 def decodeToken(token):
-    logging.warning("WARNNING:  "+token)
     payload = jwt.decode(token, key='secret', algorithms='HS256')
     return payload['openid']
+
+

@@ -32,9 +32,9 @@ class CommunityHasUser(models.Model):
 class Message(models.Model):
     message_id = models.CharField(primary_key=True, max_length=45)
     content = models.CharField(max_length=256)
-    user_wechat = models.ForeignKey('User', models.DO_NOTHING)
     readed = models.IntegerField()
     sendtime = models.DateField()
+    user_openid = models.ForeignKey('User', models.DO_NOTHING, db_column='user_openid')
 
     class Meta:
         managed = False
