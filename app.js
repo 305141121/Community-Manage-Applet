@@ -8,13 +8,11 @@ App({
 
     // 登录
     wx.login({
-      success: function(res) {
+      success: res => {
         // 发送 res.code 到后台换取 openId, sessionKey, unionId
-        console.log("code  "+res.code)
-        // 与本地服务器交互，利用json传输数据
-        //---------------------------------
+        console.log(res.code)
         wx.request({
-          url: 'http://127.0.0.1:8000/test/index/',
+          url: 'http://127.0.0.1:8000/test/login/',
           header: {
             'content-type': 'application/json'
           },
@@ -28,39 +26,13 @@ App({
 
             // 将token保存到本地缓存，用来在于服务器交互时标识用户身份
             wx.setStorageSync("token", res.data)
-            
+
           },
           fail: function(){
             console.log('fail')
           },
           complete: function(){
             console.log('complete')
-          }
-        }),   
-
-        //---------------------------  
-        console.log("token!!!  " + wx.getStorageSync("token")),
-        
-        // 用户修改信息测试
-        wx.request({
-          url: 'http://127.0.0.1:8000/test/updateUserInfo/',
-          header: {
-            'content-type': 'application/json'
-          },
-          data:{
-            token: wx.getStorageSync("token"),
-            name: "leon",
-            sex: 0,
-            grade: 2016,
-            major: "computer",
-            phone: 110
-          },
-          method: "POST",
-          success: function (res) {
-            console.log('update success!')
-          },
-          fail: function () {
-            console.log('update fail!')
           }
         })
       }
@@ -88,6 +60,5 @@ App({
   },
   globalData: {
     userInfo: null
-    
   }
 })

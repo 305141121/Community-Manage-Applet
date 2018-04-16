@@ -1,0 +1,39 @@
+<!--pages/userInfo/userInfo.wxml-->
+<view class='gray'></view>
+
+<view class='userInfo'>
+
+<form catchsubmit="formSubmit">
+<view class='name'>姓名：
+  <input type='text'  name="username" bindinput="usernameInput" style='display:inline-block' maxlength='20'></input>
+  <view class='divLine'></view>
+</view>
+
+<view  class='gender'>性别：
+  <radio-group name='usergender' bindchange="genderBindChange">
+   <radio color="#ff7373" value='0'>男</radio>
+   <radio color="#ff7373" value='1'>女</radio>
+  </radio-group>
+</view>
+
+<view class="college">学院:
+     <picker name='collegepicker' bindchange="collegeBindChange" value="{{collegeID}} " range="{{collegeArray}}" range-key='name'>
+     {{collegeArray[collegeID].name}}
+     </picker>
+</view>
+
+<view class="grade">年级:
+     <picker name='gradepicker' bindchange="gradeBindChange" value="{{gradeID}}" range="{{gradeArray}}" range-key='name'>
+     {{gradeArray[gradeID].name}}
+     </picker>
+</view>
+
+<view class='phone'>手机号：<input type='text' name="phone" bindinput="phoneInput" style='display:inline-block' maxlength='20'></input>
+</view>
+
+<view class='submit'>
+  <button form-type='submit' >保存</button>
+</view>
+
+</form>
+</view>

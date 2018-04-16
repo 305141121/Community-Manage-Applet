@@ -1,8 +1,13 @@
 from django.urls import path
-from web import views
-
+from web import user
+from web import message
 urlpatterns = [
-    path('index/', views.index),
-    path('updateUserInfo/', views.updateUserInfo),
-    path('getMessageCount/',views.getMessageCount)
+    path('login/', user.login),
+    path('updateUserInfo/', user.updateUserInfo),
+    path('getUserInfo/', user.getUserInfo),
+
+    path('getMessageUnread/', message.getMessageUnread),
+    path('getMessageCount/', message.getMessageCount)
 ]
+
+# path('getMessageCount/',message.getMessageCount)

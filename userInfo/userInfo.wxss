@@ -1,0 +1,58 @@
+/* pages/userInfo/userInfo.wxss */
+page { 
+  background: #F5F2F2;
+  height: 100%;  
+}
+
+.gray{
+  background: #F5F2F2;
+  height: 5%;  
+}
+
+.userInfo {
+  height: 60%;  
+  background:white;
+}
+
+.name{
+  font-size: 20px;
+  height: 20%;
+  padding: 4% 0 0 0; 
+}
+
+.gender{
+  font-size: 20px;
+  height: 20%;
+}
+.college{
+   font-size: 20px;
+  height: 20%;
+}
+.collegepicker{
+  height: 2%;
+  width: 80%;
+  position: absolute;
+  left: 15%;
+  top:32%;
+}
+.grade{
+  font-size: 20px;
+  height: 20%;
+}
+.gradepicker{
+  height: 2%;
+  width: 80%;
+  position: absolute;
+  left: 15%;
+  top:45%;
+}
+.phone{
+  font-size: 20px;
+  height: 20%; 
+}
+.divLine {
+  background: #E0E3DA;
+  width: 80%;
+  height: 1rpx;
+  margin: 0 0 0 10%;
+}

@@ -8,8 +8,20 @@
 from django.db import models
 
 
+class Activity(models.Model):
+    activityid = models.IntegerField(db_column='activityId', primary_key=True)  # Field name made lowercase.
+    activityurl = models.CharField(db_column='activityUrl', max_length=256)  # Field name made lowercase.
+    msgtitle = models.CharField(db_column='msgTitle', max_length=32, blank=True, null=True)  # Field name made lowercase.
+    msgcdnurl = models.CharField(db_column='msgCdnUrl', max_length=256, blank=True, null=True)  # Field name made lowercase.
+    community_comid = models.ForeignKey('Community', models.DO_NOTHING, db_column='community_comId')  # Field name made lowercase.
+
+    class Meta:
+        managed = False
+        db_table = 'activity'
+
+
 class Community(models.Model):
-    com_id = models.CharField(primary_key=True, max_length=45)
+    communityid = models.CharField(db_column='communityId', primary_key=True, max_length=45)  # Field name made lowercase.
     name = models.CharField(unique=True, max_length=32)
     intro = models.CharField(max_length=256)
     logo = models.TextField()
@@ -20,17 +32,18 @@ class Community(models.Model):
 
 
 class CommunityHasUser(models.Model):
-    community_com = models.ForeignKey(Community, models.DO_NOTHING, primary_key=True)
-    user_wechat = models.ForeignKey('User', models.DO_NOTHING)
+    community_comid = models.ForeignKey(Community, models.DO_NOTHING, db_column='community_comId', primary_key=True)  # Field name made lowercase.
+    user_openid = models.ForeignKey('User', models.DO_NOTHING, db_column='user_openid')
+    role = models.IntegerField()
 
     class Meta:
         managed = False
         db_table = 'community_has_user'
-        unique_together = (('community_com', 'user_wechat'),)
+        unique_together = (('community_comid', 'user_openid'),)
 
 
 class Message(models.Model):
-    message_id = models.CharField(primary_key=True, max_length=45)
+    messageid = models.CharField(db_column='messageId', primary_key=True, max_length=45)  # Field name made lowercase.
     content = models.CharField(max_length=256)
     readed = models.IntegerField()
     sendtime = models.DateField()
@@ -44,7 +57,7 @@ class Message(models.Model):
 class User(models.Model):
     openid = models.CharField(primary_key=True, max_length=32)
     name = models.CharField(max_length=32, blank=True, null=True)
-    phone = models.IntegerField(blank=True, null=True)
+    phone = models.CharField(max_length=16, blank=True, null=True)
     sex = models.IntegerField(blank=True, null=True)
     grade = models.SmallIntegerField(blank=True, null=True)
     major = models.CharField(max_length=32, blank=True, null=True)

@@ -5,10 +5,9 @@ import sys
 
 
 # Django 常用命令
-# python manage.py runserver 启动服务器
+# python manage.py runserver 启动本地调试服务器
 # python manage.py inspectdb > web/models.py 从数据库逆向生成models
-# python manage.py syncdb 将models生成数据库表
-
+# python manage.py runserver 0.0.0.0:8000 ,可使其他电脑通过http://[本机IP]:8000访问
 
 
 
