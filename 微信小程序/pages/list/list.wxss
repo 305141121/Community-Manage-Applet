@@ -1,0 +1,6 @@
+/* pages/list/list.wxss */
+.line {
+  height: 12px;
+  width: 100%;
+  background: #FEC9CA;
+}

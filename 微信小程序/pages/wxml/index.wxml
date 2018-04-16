@@ -1,0 +1,17 @@
+<!--一个简单的文本标签 -->
+
+<text>hello world</text>
+
+<!-- view 中包含了 text 标签 -->
+
+<view>
+
+  <text>当前时间：{{time}}</text>
+
+</view>
+
+
+
+<view wx:for="{{array}}" wx:for-index="idx" wx:for-item="Name">
+  {{idx}}: {{Name.message}}
+</view>
