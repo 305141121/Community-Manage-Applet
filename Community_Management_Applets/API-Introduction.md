@@ -44,7 +44,7 @@ wx.request({
 
 ----------------------------
 <span id = "message"></span>
-###message.py
+### message.py
 +   **getMessageCount** /test/getMessageCount
 获取用户当前的未读消息数量
 
